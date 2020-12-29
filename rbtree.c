@@ -45,6 +45,9 @@ struct node *rotateLeft(struct node *root, struct node *n){
 }
 
 struct node *rotateRight(struct node *root, struct node *n){
+     if(root == NULL || n == NULL){
+         return NULL;
+     }
      if(root == n){
         if(n->left == NULL)
             return NULL;
