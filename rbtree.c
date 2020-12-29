@@ -90,55 +90,57 @@ struct node *insert(struct node *root, struct node *newNode, struct node *parent
     return root;
 }
 
+struct node *getUncle(struct node *node){
+    if(node->parent->parent != NULL){
+        if (node->parent == node->parent->parent->left)
+            return node->parent->parent->right;
+        else {
+            return node->parent->parent->left;
+        }
+    }
+    else{
+        return NULL;
+    }
+}
+
 struct node *insertRB(struct node *root, struct node *newNode){
     root = insert (root, newNode, NULL);
 
-    /*while ((newNode != root) && (newNode->parent->color == RED)){
+    if(newNode->parent != NULL && newNode->parent->color != BLACK){
 
-        if(newNode->parent == newNode->parent->parent->left){
+        struct node *uncle = getUncle(newNode);
 
-            struct node *rightUncle = newNode->parent->parent->right;
-
-            if(rightUncle->color == RED){
-                newNode->parent->color = BLACK;
-                rightUncle->color = BLACK;
-                newNode->parent->parent = RED;
-                newNode = newNode->parent->parent;
-            }
-            else{
-                if(newNode == newNode->parent->right){
-                    newNode = newNode->parent;
-                    root = rotateLeft(root, newNode);
-                }
-                newNode->parent->color = BLACK;
-                newNode->parent->parent->color = RED;
-                root = rotateRight (root, newNode->parent->parent);
-            }
+        if(uncle != NULL && uncle->color == RED){
+            newNode->parent->color = BLACK;
+            uncle->color = BLACK;
+            newNode->parent->parent->color = RED;
         }
         else{
-            if(newNode->parent == newNode->parent->parent->right){
+            struct node *parent = newNode->parent;
+            struct node *grandParent = newNode->parent->parent;
 
-            struct node *leftUncle = newNode->parent->parent->left;
-
-                if(leftUncle->color == RED){
-                    newNode->parent->color = BLACK;
-                    leftUncle->color = BLACK;
-                    newNode->parent->parent = RED;
-                    newNode = newNode->parent->parent;
-                }
-                else{
-                    if(newNode == newNode->parent->left){
-                        newNode = newNode->parent;
-                        root = rotateLeft(root, newNode);
-                    }
-                    newNode->parent->color = BLACK;
-                    newNode->parent->parent->color = RED;
-                    root = rotateRight (root, newNode->parent->parent);
-                }
-
+            if(newNode == parent->right && grandParent->left == parent){
+                root = rotateLeft(root, parent);
+                newNode = newNode->left;
             }
+            else if(newNode == parent->left && grandParent->right == parent){
+                root = rotateRight (root, parent);
+                newNode = newNode->right;
+            }
+            parent = newNode->parent;
+            grandParent = newNode->parent->parent;
+
+            if(newNode == parent->left){
+                root = rotateRight(root, grandParent);
+            }
+            else{
+                root = rotateLeft(root, grandParent);
+            }
+            parent->color = BLACK;
+            grandParent->color = RED;
         }
-    }*/
+    }
+
     root->color = BLACK;
     return root;
 }
