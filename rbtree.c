@@ -39,20 +39,22 @@ struct node *rotateLeft(struct node *root, struct node *n){
     }
 
     else if (root->val < n->val){
-        return rotateLeft (root->right, n);
+        root->right = rotateLeft (root->right, n);
     }
 
     else{
-        return rotateRight (root->left, n);
+        root->left = rotateLeft (root->left, n);
     }
+    return root;
 
 }
 
 struct node *rotateRight(struct node *root, struct node *n){
-     if(root == NULL || n == NULL){
+    if(root == NULL || n == NULL){
          return root;
      }
-     else if(root == n){
+
+    if(root == n){
         if(n->left == NULL)
             return n;
 
@@ -65,14 +67,79 @@ struct node *rotateRight(struct node *root, struct node *n){
     }
 
     else if (root->val < n->val){
-        return rotateLeft (root->right, n);
+        root->right = rotateLeft (root->right, n);
     }
 
     else{
-        return rotateRight (root->left, n);
+        root->left = rotateLeft (root->left, n);
     }
+    return root;
+}
+
+struct node *insert(struct node *root, struct node *newNode){
+    if(root == NULL){
+        newNode->parent = root->parent;
+        return newNode;
+    }
+    else if(root->val <= newNode->val){
+        root->left = insert (root->left, newNode);
+    }
+    else{
+        root->right = insert (root->right, newNode);
+    }
+    return root;
 }
 
 struct node *insertRB(struct node *root, struct node *newNode){
-    return NULL;
+    return insert (root, newNode);
+
+    /*root = insert(root, newNode);
+    while ((newNode != root) && (newNode->parent->color == RED)){
+
+        if(newNode->parent == newNode->parent->parent->left){
+
+            struct node *rightUncle = newNode->parent->parent->right;
+
+            if(rightUncle->color == RED){
+                newNode->parent->color = BLACK;
+                rightUncle->color = BLACK;
+                newNode->parent->parent = RED;
+                newNode = newNode->parent->parent;
+            }
+            else{
+                if(newNode == newNode->parent->right){
+                    newNode = newNode->parent;
+                    root = rotateLeft(root, newNode);
+                }
+                newNode->parent->color = BLACK;
+                newNode->parent->parent->color = RED;
+                root = rotateRight (root, newNode->parent->parent);
+            }
+        }
+        else{
+            if(newNode->parent == newNode->parent->parent->right){
+
+            struct node *leftUncle = newNode->parent->parent->left;
+
+                if(leftUncle->color == RED){
+                    newNode->parent->color = BLACK;
+                    leftUncle->color = BLACK;
+                    newNode->parent->parent = RED;
+                    newNode = newNode->parent->parent;
+                }
+                else{
+                    if(newNode == newNode->parent->left){
+                        newNode = newNode->parent;
+                        root = rotateLeft(root, newNode);
+                    }
+                    newNode->parent->color = BLACK;
+                    newNode->parent->parent->color = RED;
+                    root = rotateRight (root, newNode->parent->parent);
+                }
+
+            }
+        }
+    }
+    root->color = BLACK;
+    return root;*/
 }
