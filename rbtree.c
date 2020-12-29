@@ -67,11 +67,11 @@ struct node *rotateRight(struct node *root, struct node *n){
     }
 
     else if (root->val < n->val){
-        root->right = rotateLeft (root->right, n);
+        root->right = rotateRight (root->right, n);
     }
 
     else{
-        root->left = rotateLeft (root->left, n);
+        root->left = rotateRight (root->left, n);
     }
     return root;
 }
@@ -92,7 +92,6 @@ struct node *insert(struct node *root, struct node *newNode, struct node *parent
 
 struct node *insertRB(struct node *root, struct node *newNode){
     root = insert (root, newNode, NULL);
-    return root;
 
     /*while ((newNode != root) && (newNode->parent->color == RED)){
 
@@ -139,9 +138,9 @@ struct node *insertRB(struct node *root, struct node *newNode){
 
             }
         }
-    }
+    }*/
     root->color = BLACK;
-    return root;*/
+    return root;
 }
 
 
