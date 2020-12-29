@@ -76,25 +76,25 @@ struct node *rotateRight(struct node *root, struct node *n){
     return root;
 }
 
-struct node *insert(struct node *root, struct node *newNode){
+struct node *insert(struct node *root, struct node *newNode, struct node *parent){
     if(root == NULL){
-        newNode->parent = root->parent;
+        newNode->parent = parent;
         return newNode;
     }
-    else if(root->val <= newNode->val){
-        root->left = insert (root->left, newNode);
+    else if(root->val >= newNode->val){
+        root->left = insert (root->left, newNode, root);
     }
     else{
-        root->right = insert (root->right, newNode);
+        root->right = insert (root->right, newNode, root);
     }
     return root;
 }
 
 struct node *insertRB(struct node *root, struct node *newNode){
-    return insert (root, newNode);
+    root = insert (root, newNode, NULL);
+    return root;
 
-    /*root = insert(root, newNode);
-    while ((newNode != root) && (newNode->parent->color == RED)){
+    /*while ((newNode != root) && (newNode->parent->color == RED)){
 
         if(newNode->parent == newNode->parent->parent->left){
 
@@ -143,3 +143,5 @@ struct node *insertRB(struct node *root, struct node *newNode){
     root->color = BLACK;
     return root;*/
 }
+
+
