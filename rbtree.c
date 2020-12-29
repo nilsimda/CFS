@@ -59,3 +59,7 @@ struct node *rotateRight(struct node *root, struct node *n){
         return rotateRight (root->left, n);
     }
 }
+
+struct node *insertRB(struct node *root, struct node *newNode){
+    return NULL;
+}

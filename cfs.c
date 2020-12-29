@@ -3,3 +3,7 @@
 #include <stdbool.h>
 
 #include "cfs.h"
+
+struct node* cfs(struct process *processes, int time){
+    return NULL;
+}
