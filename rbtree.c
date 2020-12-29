@@ -22,19 +22,34 @@ struct node *newNode (int val){
 }
 
 struct node *rotateLeft(struct node *root, struct node *n){
-     if(root == NULL || n == NULL){
-         return root;
-     }
+    if(root == NULL){
+        return root;
+    }
 
     else if(root == n){
-        if(n->right == NULL)
+        struct node *a = n->right;
+        struct node *p = n->parent;
+
+        if(a == NULL)
             return n;
 
-       struct node *a = n->right;
-       a->parent = n->parent;
        n->right = a->left;
        a->left = n;
        n->parent = a;
+
+       if(n->right != NULL){
+           n->right->parent = n;
+       }
+
+       if(p != NULL){
+           if(n == p->left){
+               p->left = a;
+           }
+           else if (n == p->right){
+               p->right = a;
+           }
+       } 
+       a->parent = p; 
        return a;
     }
 
@@ -55,15 +70,30 @@ struct node *rotateRight(struct node *root, struct node *n){
      }
 
     if(root == n){
-        if(n->left == NULL)
+        struct node *a = n->left;
+        struct node *p = n->parent;
+
+        if(a == NULL)
             return n;
 
-        struct node *b = n->left;
-        b->parent = n->parent;
-        n->left = b->right;
-        b->right = n;
-        n->parent = b;
-        return b;
+       n->left = a->right;
+       a->right = n;
+       n->parent = a;
+
+       if(n->left != NULL){
+           n->left->parent = n;
+       }
+
+       if(p != NULL){
+           if(n == p->left){
+               p->left = a;
+           }
+           else if (n == p->right){
+               p->right = a;
+           }
+       } 
+       a->parent = p; 
+       return a;
     }
 
     else if (root->val < n->val){
