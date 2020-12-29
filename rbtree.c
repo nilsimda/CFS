@@ -22,9 +22,13 @@ struct node *newNode (int val){
 }
 
 struct node *rotateLeft(struct node *root, struct node *n){
-    if(root == n){
+     if(root == NULL || n == NULL){
+         return NULL;
+     }
+
+    else if(root == n){
         if(n->right == NULL)
-            return NULL;
+            return n;
 
        struct node *a = n->right;
        a->parent = n->parent;
@@ -48,9 +52,9 @@ struct node *rotateRight(struct node *root, struct node *n){
      if(root == NULL || n == NULL){
          return NULL;
      }
-     if(root == n){
+     else if(root == n){
         if(n->left == NULL)
-            return NULL;
+            return n;
 
         struct node *b = n->left;
         b->parent = n->parent;
