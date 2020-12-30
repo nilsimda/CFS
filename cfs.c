@@ -3,36 +3,38 @@
 #include <stdbool.h>
 
 #include "cfs.h"
+#include "utility.h"
 
-struct node *updateMin(struct node *root){
+struct node *findMin(struct node *root){
     if(root == NULL){
         return NULL;
     }
     if(root->left == NULL){
-        root->val += 10;
         return root;
     }
-    else
-    {
-        return updateMin(root->left);
-    }
-    
+    else {
+        return findMin(root->left);
+    }    
 }
 
-struct node *rebuildRBTree(struct node *oldRoot, struct node *newRoot){
-    if(oldRoot == NULL)
+struct node *rebuildTree(struct node *root, struct node *ins){
+    if(root == NULL){
         return NULL;
-    
-    newRoot = rebuildRBTree(oldRoot->left, newRoot);
-    newRoot = rebuildRBTree(oldRoot->right, newRoot);
-    
-    struct process *p = oldRoot->data;
-    int nVal = oldRoot->val - p->decay;
-    //printf("%d\n" , nVal);
-    struct node *node = newNode(nVal);
-    node->data = oldRoot->data;
+    }
 
-    return insertRB(newRoot, node);
+    struct process *p = root->data;
+    struct node *n = newNode(root->val - p->decay);
+    n->data = p;
+    ins = insertRB (ins, n);
+
+    if(root->left != NULL){
+        ins = rebuildTree(root->left, ins);
+    }
+    if(root->right != NULL){
+        ins = rebuildTree(root->right, ins);
+    }
+
+    return ins;
 }
 
 struct node* cfs(struct process *processes, int time){
@@ -47,10 +49,11 @@ struct node* cfs(struct process *processes, int time){
     struct process *p = NULL;
 
     for(int i = 0; i < time; i++){
-        iter = updateMin (root);
+        iter = findMin (root);
         p = iter->data;
         printf("Time: %d, PID: %d\n", iter->val, p->PID);
-        root = rebuildRBTree(root, NULL);
+        iter->val += 10;
+        root = rebuildTree(root, NULL);
     }
     return root;
 }
