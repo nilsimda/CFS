@@ -51,7 +51,7 @@ struct node* cfs(struct process *processes, int time){
     for(int i = 0; i < time; i++){
         iter = findMin (root);
         p = iter->data;
-        printf("Time: %d, PID: %d\n", iter->val, p->PID);
+        printf("Time: %d PID: %d\n", iter->val, p->PID);
         iter->val += 10;
         root = rebuildTree(root, NULL);
     }
