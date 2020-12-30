@@ -52,4 +52,6 @@ struct node *rotateRight(struct node *root, struct node *n);
  */
 struct node *insertRB(struct node *root, struct node *newNode);
 
+struct node *search(struct node *root, int val);
+
 #endif // RBTREE_H

@@ -179,4 +179,16 @@ struct node *insertRB(struct node *root, struct node *newNode){
     return updateRB (root, newNode);
 }
 
+struct node *search(struct node *root, int val){
+    if ((root->val > val && root->left == NULL) || (root->val > val && root->left->val <= val)){
+        return root;
+    }
+    else if (root->val < val){
+        return search (root->right, val);
+    }
+    else{
+        return search (root->left, val);
+    }  
+}
+
 

@@ -554,7 +554,7 @@ int main(int argc, char **argv) {
             case 'a': {
                 srand(time(NULL));
                 int *elements = NULL;
-                for (int numElements = 16; numElements <= 65536; numElements <<= 6) {
+                for (int numElements = 16; numElements <= 1024; numElements <<= 6) {
                     elements = realloc(elements, numElements * sizeof(int));
                     struct node *root = NULL;
                     for (int i = 0; i < numElements; i++) {
